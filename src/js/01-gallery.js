@@ -6,23 +6,26 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 console.log(galleryItems);
 
-const galleryImages = document.querySelector('.gallery');
+const divGallery = document.querySelector('.gallery');
 
 function createGalleryMarkup(items) {
-    return items
-        .map(
-            item =>
-                 `<li><a class="gallery__item" href="${item.original}">
-            <img class="gallery__image" src="${item.preview}" alt="${item.description}" title="${item.description}" />
-          </li></a>`
+  return items
+    .map((item) => 
+      `<div class="gallery__item"> 
+         <a class="gallery__link" href="${item.original}">
+           <img class="gallery__image" src="${item.preview}"
+             data-sourse="${item.original}"
+             alt="${item.description}"/>
+         </a>
+       </div>`
     )
-    .join('');
+    .join("");
 }
 
-gallaryImages.style.listStyle = 'none';
+divGallery.innerHTML = createGalleryMarkup(galleryItems);
 
-const imgMarkup = createGalleryMarkup(galleryItems);
-
-galleryImages.innerHTML = imgMarkup;
-
-const lightbox = new SimpleLightbox('.gallery a', { captionDelay: 300 });
+let gallery = new SimpleLightbox(".gallery__link", {
+    captionData: 'alt',
+    captionDelay: 300,
+});
+gallery.options("show.simplelightbox", function () { });
